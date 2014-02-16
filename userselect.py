@@ -13,7 +13,7 @@ class userSelect(QtGui.QDialog):
             user = self.list.currentItem().text()
             ip = self.userList[str(user)]
             if ip != None:
-                self.chats.append(Chat(user, ip))
+                self.chats.append(Chat(self.username, user, ip))
         #self.accept()
 
     def getUsers(self):
