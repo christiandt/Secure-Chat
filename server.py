@@ -15,7 +15,7 @@ connections = []
 connections.append(server)
 users = dict()
 
-print "Server started on"+PRIVATE_TCP_IP
+print "Server started on "+PRIVATE_TCP_IP
 
 while 1:
 	# Check if there are any readable sockets

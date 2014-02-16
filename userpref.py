@@ -14,7 +14,7 @@ class userPref(QtGui.QDialog):
 
         #name input
         self.nameInput = QtGui.QLineEdit('', self)
-        self.nameInput.setStyleSheet("font: 30pt")
+        self.nameInput.setStyleSheet("font: 20pt")
         self.nameInput.setFixedHeight(30)
         self.layout.addWidget(self.nameInput, 1, 0)
         userLabel = QtGui.QLabel('Username:')
@@ -28,6 +28,7 @@ class userPref(QtGui.QDialog):
         self.layout.addWidget(self.okbutton, 1, 1)
         QtCore.QObject.connect(self.okbutton, QtCore.SIGNAL("clicked()"), self.setUsername)
 
+        self.setLayout(self.layout)
 
     def setUsername(self):
         username = str(self.nameInput.text())

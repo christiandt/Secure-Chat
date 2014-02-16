@@ -2,15 +2,20 @@
 from PyQt4 import QtCore, QtGui
 import sys
 from nameclient import NameClient
+from chat import Chat
 
 
 class userSelect(QtGui.QDialog):
 
-    def userChanged(item):
-        print item
+    def userChanged(self, item):
+        self.user = item
+
+    def chatStarted(self):
+        user = self.list.currentItem().text()
+        self.chat = Chat(user, self.userList[str(user)])
+        self.accept()
 
     def getUsers(self):
-        global userList
         client = NameClient()
         if(client.connect()):
             client.sendUsername(self.username)
@@ -30,18 +35,11 @@ class userSelect(QtGui.QDialog):
 
         self.layout = QtGui.QGridLayout(self)
 
-        #listView
-        
-        self.list = QtGui.QListView()
-        model = QtGui.QStandardItemModel(self.list)
+        #listWidget
+        self.list = QtGui.QListWidget()
         self.userList = self.getUsers()
         users = list(self.userList)
-        for user in users:
-            item = QtGui.QStandardItem(user)
-            item.setEditable(False)
-            model.appendRow(item)
-        self.list.setModel(model)
-        model.itemChanged.connect(self.userChanged)
+        self.list.addItems(users)
         self.layout.addWidget(self.list, 0, 0, 1, 2)
 
         #selectbutton
@@ -50,6 +48,8 @@ class userSelect(QtGui.QDialog):
         self.selectbutton.setMinimumWidth(20)
         self.selectbutton.setMinimumHeight(50)
         self.layout.addWidget(self.selectbutton, 1, 0)
+        QtCore.QObject.connect(self.selectbutton, QtCore.SIGNAL("clicked()"), self.chatStarted)
+
 
         #cancelbutton
         self.cancelbutton = QtGui.QPushButton(self)
@@ -61,4 +61,3 @@ class userSelect(QtGui.QDialog):
 
         self.setLayout(self.layout)
         self.show()
-        
