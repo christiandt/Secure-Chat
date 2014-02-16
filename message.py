@@ -9,7 +9,10 @@ class Message():
 
 
 	def getTime(self):
-		return self.time
+		return str(self.time.time())[:-7]
+
+	def getDate(self):
+		return str(self.time.date())
 
 	def getUser(self):
 		return self.user

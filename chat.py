@@ -16,7 +16,7 @@ class Chat(QtGui.QDialog):
                 html += '<div align="right">'
                 html += post.getMessage()
                 html += " ("
-                html += str(post.getTime().time())[:-7]
+                html += post.getTime()
                 html += ")"
             else:
                 html += "<div>"
