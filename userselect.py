@@ -12,8 +12,10 @@ class userSelect(QtGui.QDialog):
 
     def chatStarted(self):
         user = self.list.currentItem().text()
-        self.chat = Chat(user, self.userList[str(user)])
-        self.accept()
+        ip = self.userList[str(user)]
+        if ip != None:
+            self.chat = Chat(user, ip)
+        #self.accept()
 
     def getUsers(self):
         client = NameClient()
@@ -21,7 +23,7 @@ class userSelect(QtGui.QDialog):
             client.sendUsername(self.username)
             return client.receiveUserList()
         else:
-            None
+            return {'Server error':None}
 
     def quitProgram(self):
         sys.exit(0)
