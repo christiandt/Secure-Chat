@@ -1,9 +1,10 @@
-from userselect import userSelect
+from userpref import userPref
 from PyQt4 import QtCore, QtGui
 import sys
 
+
 app = QtGui.QApplication(sys.argv)
-ui = userSelect()
-ui.show()
+usernameWindow = userPref()
+usernameWindow.show()
 
 sys.exit(app.exec_())

@@ -3,6 +3,7 @@ from PyQt4 import QtCore, QtGui
 import sys
 from nameclient import NameClient
 
+
 class userSelect(QtGui.QDialog):
 
     def userChanged(item):
@@ -12,7 +13,7 @@ class userSelect(QtGui.QDialog):
         global userList
         client = NameClient()
         if(client.connect()):
-            client.sendUsername("kine")
+            client.sendUsername(self.username)
             return client.receiveUserList()
         else:
             None
@@ -20,8 +21,9 @@ class userSelect(QtGui.QDialog):
     def quitProgram(self):
         sys.exit(0)
 
-    def __init__(self):
+    def __init__(self, username):
         super(userSelect, self).__init__()
+        self.username = username
         title = "Users"
         self.setWindowTitle(str(title))
         self.resize(300,400)
@@ -58,3 +60,5 @@ class userSelect(QtGui.QDialog):
         QtCore.QObject.connect(self.cancelbutton, QtCore.SIGNAL("clicked()"), self.quitProgram)
 
         self.setLayout(self.layout)
+        self.show()
+        
