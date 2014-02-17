@@ -8,7 +8,7 @@ class Communication():
 		self.chat = chat
 		None
 
-	def sendMessage(self):
+	def sendMessage(self, message):
 		None
 
 

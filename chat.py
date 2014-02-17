@@ -10,8 +10,9 @@ class Chat(QtGui.QDialog):
 
     def sendMessage(self):
         html = ""
-        message = self.messageText.text()
-        self.chatLog.append(Message(self.username, message))
+        text = self.messageText.text()
+        message = Message(self.username, text)
+        self.chatLog.append(message)
         self.messageText.clear()
         for post in self.chatLog:
             if post.getUser() == self.username:
@@ -28,6 +29,7 @@ class Chat(QtGui.QDialog):
                 html += post.getMessage()
             html += "</div>"
         self.chatText.setHtml(html)
+        self.communication.sendMessage(message)
 
     def __init__(self, username, contact, ip):
         super(Chat, self).__init__()
