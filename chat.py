@@ -5,6 +5,8 @@ from message import Message
 
 class Chat(QtGui.QDialog):
 
+    def receiveMessage(self.message):
+        self.chatLog.append(message)
 
     def sendMessage(self):
         html = ""
@@ -29,6 +31,7 @@ class Chat(QtGui.QDialog):
 
     def __init__(self, username, contact, ip):
         super(Chat, self).__init__()
+        self.communication = Communication(self)
         self.chatLog = []
         self.username = username
         self.setWindowTitle("Chat with "+str(contact))
