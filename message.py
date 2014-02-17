@@ -3,7 +3,7 @@ import json
 
 class Message():
 
-	def __init__(self, user, message):
+	def __init__(self, user="", message=""):
 		self.time = datetime.now()
 		self.user = user
 		self.message = message
