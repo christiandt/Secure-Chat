@@ -23,7 +23,7 @@ class Message():
 		return self.message
 
 	def toJson(self):
-		messageJson = {'time':self.time, 'date':self.date 'user':self.user, 'message':self.message}
+		messageJson = {'time':self.time, 'date':self.date, 'user':self.user, 'message':self.message}
 		return json.dumps(messageJson)
 
 	def fromJson(self, messageJson):
