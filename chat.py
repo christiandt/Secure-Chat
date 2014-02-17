@@ -33,9 +33,11 @@ class Chat(QtGui.QDialog):
 
     def __init__(self, username, contact, ip):
         super(Chat, self).__init__()
-        self.communication = Communication(self)
+        self.communication = Communication(self, ip)
         self.chatLog = []
         self.username = username
+        self.contact = contact
+        self.ip = ip
         self.setWindowTitle("Chat with "+str(contact))
         self.resize(600, 400)
 
