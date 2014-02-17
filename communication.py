@@ -4,9 +4,9 @@ import socket
 
 class Communication():
 
-	def __init__(self, chat):
+	def __init__(self, chat, ip):
 		self.chat = chat
-		None
+		self.ip = ip
 
 	def sendMessage(self, message):
 		None
