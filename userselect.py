@@ -68,7 +68,7 @@ class userSelect(QtGui.QDialog):
 
         #cancelbutton
         self.cancelbutton = QtGui.QPushButton(self)
-        self.cancelbutton.setText("Cancel")
+        self.cancelbutton.setText("Log out")
         self.cancelbutton.setMinimumWidth(5)
         self.cancelbutton.setMinimumHeight(50)
         self.layout.addWidget(self.cancelbutton, 1, 2)

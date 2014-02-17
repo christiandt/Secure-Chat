@@ -49,7 +49,7 @@ class Chat(QtGui.QDialog):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QtGui.QWidget()
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-        self.chatText = QtGui.QTextEdit(self.scrollAreaWidgetContents)
+        self.chatText = QtGui.QTextBrowser(self.scrollAreaWidgetContents)
         self.layout.addWidget(self.scrollArea, 0, 0, 1, 2)
         self.layout.addWidget(self.chatText, 0, 0, 1, 2)
 
