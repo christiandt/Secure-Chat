@@ -1,4 +1,5 @@
 from datetime import datetime
+import json
 
 class Message():
 
@@ -19,3 +20,17 @@ class Message():
 
 	def getMessage(self):
 		return self.message
+
+	def toJson(self):
+		messageJson = {'time':self.time, 'user':self.user, 'message':self.message}
+		return json.dumps(messageJson)
+
+	def fromJson(self, messageJson):
+		try:
+			messageDict = json.loads(messageJson)
+			self.time = messageDict['time']
+			self.user = messageDict['user']
+			self.message = messageDict['message']
+			return True
+		except:
+			False
