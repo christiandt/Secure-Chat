@@ -30,6 +30,7 @@ class ChatServer(QtCore.QThread):
 				readable_sockets,writeable_sockets,error_sockets = select.select(self.connections,[],[])
 			except:
 				print "hmmm...."
+				break
 			for s in readable_sockets:
 				if s == self.serversocket:
 					connection, address = self.serversocket.accept()

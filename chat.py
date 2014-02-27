@@ -11,7 +11,7 @@ class Chat(QtGui.QDialog):
 
     def sendMessage(self):
         text = self.messageText.text()
-        message = Message(self.username, text)
+        message = Message(self.contact, text)
         self.chatLog.append(message)
         self.refreshChatMessages()
         self.chatclient.sendMessage(message)
