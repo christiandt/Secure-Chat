@@ -5,8 +5,8 @@ The SSL/TLS chat client is a chat client implemented using python and Qt (PyQt).
 
 To run the chat client, do the following:
 - Run nameserver.py on the server
-- Edit the IP in nameclient.py on the clients to the IP of the server
-- Run main.py
+- Edit the IP in nameclient.py (on the clients) to the IP of the server
+- Run main.py on the clients
 
 
 ## Class Diagram
