@@ -30,6 +30,7 @@ class userSelect(QtGui.QDialog):
         else:
             chat = Chat(self.username, user, self.chatclient)
             self.chats[user] = chat
+            chat.receiveMessage(message)
 
     def getUsers(self):
         client = NameClient()
