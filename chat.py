@@ -29,11 +29,10 @@ class Chat(QtGui.QDialog):
         self.port = 5005
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
-            self.client.connect((ip, port))
+            self.client.connect((ip, self.port))
             self.client.settimeout(3)
-            return True
         except:
-            return False
+            print "could not connect"
 
 
     def refreshChatMessages(self):
@@ -71,7 +70,7 @@ class Chat(QtGui.QDialog):
 
         self.layout = QtGui.QGridLayout(self)
 
-        if not self.connect(ip): print "could not connect"
+        self.connect(ip)
         
         #userLabel = QtGui.QLabel("Username: "+user)
         #self.layout.addWidget(userLabel, 0, 0)
