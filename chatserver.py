@@ -40,6 +40,9 @@ class ChatServer(QtCore.QThread):
 					try:
 						print "message received"
 						data = s.recv(self.BUFFER_SIZE)
+						if data == "":
+							s.close()
+							connections.remove(s)
 						self.emit(QtCore.SIGNAL('update(QString)'), data)
 						#s.send(msg.toJson())
 					except:
