@@ -25,6 +25,7 @@ class ChatServer(QtCore.QThread):
 	def run(self):
 		self.running = True
 		while self.running:
+			print "running server"
 			try:
 				readable_sockets,writeable_sockets,error_sockets = select.select(self.connections,[],[])
 			except:
@@ -33,9 +34,11 @@ class ChatServer(QtCore.QThread):
 				if s == self.serversocket:
 					connection, address = self.serversocket.accept()
 					self.connections.append(connection)
+					print "connection added"
 
 				else:
 					try:
+						print "message received"
 						data = s.recv(self.BUFFER_SIZE)
 						self.emit(QtCore.SIGNAL('update(QString)'), data)
 						#s.send(msg.toJson())
