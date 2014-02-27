@@ -19,7 +19,9 @@ class ChatClient():
 		if contact in self.userSockets:
 			socket = self.userSockets[contact]
 			try:
+				print "sending"
 				socket.send(message.toJson())
+				print "sent"
 			except:
 				print "could not send message"
 		else:
