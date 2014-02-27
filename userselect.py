@@ -14,8 +14,7 @@ class userSelect(QtGui.QDialog):
             user = str(self.list.currentItem().text())
             ip = self.userList[user]
             if ip != None:
-                self.chatserver.connect(user, ip)
-                chat = Chat(self.username, user, self.chatserver)
+                chat = Chat(self.username, user, ip)
                 self.chats[user] = chat
         #self.accept()
 
@@ -27,7 +26,8 @@ class userSelect(QtGui.QDialog):
             chat = self.chats[user]
             chat.receiveMessage(message)
         else:
-            chat = Chat(self.username, user, self.chatserver)
+            ip = self.userList[user]
+            chat = Chat(self.username, user, ip)
             self.chats[user] = chat
             chat.receiveMessage(message)
 
@@ -54,7 +54,7 @@ class userSelect(QtGui.QDialog):
         super(userSelect, self).__init__()
         self.username = username
 
-        self.chatserver = ChatServer(self.username)
+        self.chatserver = ChatServer()
         self.connect( self.chatserver, QtCore.SIGNAL("update(QString)"), self.receivedMessage )
         #self.chatserver.daemon = True
         self.chatserver.start()

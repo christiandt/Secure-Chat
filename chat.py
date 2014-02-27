@@ -1,3 +1,4 @@
+import socket
 from PyQt4 import QtCore, QtGui
 from chatserver import ChatServer
 from message import Message
@@ -15,7 +16,7 @@ class Chat(QtGui.QDialog):
         message = Message(self.username, text)
         self.chatLog.append(message)
         self.refreshChatMessages()
-        self.chatserver.sendMessage(self.contact, message)
+        self.client.send(message.toJson())
 
         #self.chatsocket.send(message.toJson())
         #data = self.chatsocket.recv(1024)
@@ -23,6 +24,17 @@ class Chat(QtGui.QDialog):
         #msg.fromJson(data)
         #self.receiveMessage(msg)
         #self.communication.sendMessage(message)
+
+    def connect(self, ip):
+        self.port = 5005
+        self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        try:
+            self.client.connect((ip, port))
+            self.client.settimeout(3)
+            return True
+        except:
+            return False
+
 
     def refreshChatMessages(self):
         html = ""
@@ -46,7 +58,7 @@ class Chat(QtGui.QDialog):
             html += "</div>"
         self.chatText.setHtml(html)
 
-    def __init__(self, username, contact, server):
+    def __init__(self, username, contact, ip):
         super(Chat, self).__init__()
         #self.communication = Communication(self, ip)
         print "un: "+username
@@ -54,12 +66,13 @@ class Chat(QtGui.QDialog):
         self.chatLog = []
         self.username = username
         self.contact = contact
-        self.chatserver = server
         self.setWindowTitle("Chat with "+str(contact))
         self.resize(600, 400)
 
         self.layout = QtGui.QGridLayout(self)
 
+        if not self.connect(ip): print "could not connect"
+        
         #userLabel = QtGui.QLabel("Username: "+user)
         #self.layout.addWidget(userLabel, 0, 0)
 
