@@ -3,7 +3,6 @@ from PyQt4 import QtCore, QtGui
 from nameclient import NameClient
 from chat import Chat
 from chatserver import ChatServer
-from chatclient import ChatClient
 from message import Message
 
 
@@ -15,8 +14,8 @@ class userSelect(QtGui.QDialog):
             user = str(self.list.currentItem().text())
             ip = self.userList[user]
             if ip != None:
-                self.chatclient.connect(user, ip)
-                chat = Chat(self.username, user, self.chatclient)
+                self.chatserver.connect(user, ip)
+                chat = Chat(self.username, user, self.chatserver)
                 self.chats[user] = chat
         #self.accept()
 
@@ -28,7 +27,7 @@ class userSelect(QtGui.QDialog):
             chat = self.chats[user]
             chat.receiveMessage(message)
         else:
-            chat = Chat(self.username, user, self.chatclient)
+            chat = Chat(self.username, user, self.chatserver)
             self.chats[user] = chat
             chat.receiveMessage(message)
 
@@ -54,9 +53,8 @@ class userSelect(QtGui.QDialog):
     def __init__(self, username):
         super(userSelect, self).__init__()
         self.username = username
-        self.chatclient = ChatClient()
 
-        self.chatserver = ChatServer(self.username, self.chatclient)
+        self.chatserver = ChatServer(self.username)
         self.connect( self.chatserver, QtCore.SIGNAL("update(QString)"), self.receivedMessage )
         #self.chatserver.daemon = True
         self.chatserver.start()

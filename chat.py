@@ -1,4 +1,5 @@
 from PyQt4 import QtCore, QtGui
+from chatserver import ChatServer
 from message import Message
 
 
@@ -14,7 +15,7 @@ class Chat(QtGui.QDialog):
         message = Message(self.username, text)
         self.chatLog.append(message)
         self.refreshChatMessages()
-        self.chatclient.sendMessage(self.contact, message)
+        self.chatserver.sendMessage(self.contact, message)
 
         #self.chatsocket.send(message.toJson())
         #data = self.chatsocket.recv(1024)
@@ -45,7 +46,7 @@ class Chat(QtGui.QDialog):
             html += "</div>"
         self.chatText.setHtml(html)
 
-    def __init__(self, username, contact, client):
+    def __init__(self, username, contact, server):
         super(Chat, self).__init__()
         #self.communication = Communication(self, ip)
         print "un: "+username
@@ -53,7 +54,7 @@ class Chat(QtGui.QDialog):
         self.chatLog = []
         self.username = username
         self.contact = contact
-        self.chatclient = client
+        self.chatserver = server
         self.setWindowTitle("Chat with "+str(contact))
         self.resize(600, 400)
 
