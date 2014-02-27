@@ -26,7 +26,8 @@ while 1:
 
 		if s == server:
 			connection, address = server.accept()
-			socketIP[connection] = address
+			print "connection from "+str(address)
+			socketIP[connection] = address[0]
 			connections.append(connection)
 			
 		else:

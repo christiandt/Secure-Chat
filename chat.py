@@ -11,10 +11,10 @@ class Chat(QtGui.QDialog):
 
     def sendMessage(self):
         text = self.messageText.text()
-        message = Message(self.contact, text)
+        message = Message(self.username, text)
         self.chatLog.append(message)
         self.refreshChatMessages()
-        self.chatclient.sendMessage(message)
+        self.chatclient.sendMessage(self.contact, message)
 
         #self.chatsocket.send(message.toJson())
         #data = self.chatsocket.recv(1024)
@@ -25,8 +25,11 @@ class Chat(QtGui.QDialog):
 
     def refreshChatMessages(self):
         html = ""
+        print self.chatLog
         self.messageText.clear()
         for post in self.chatLog:
+            print post.getUser()
+            print self.username
             if post.getUser() == self.username:
                 html += '<div align="right">'
                 html += post.getMessage()
@@ -36,7 +39,7 @@ class Chat(QtGui.QDialog):
             else:
                 html += "<div>"
                 html += "("
-                html += str(post.getTime().time())[:-7]
+                html += post.getTime()
                 html += ") "
                 html += post.getMessage()
             html += "</div>"
