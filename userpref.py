@@ -1,10 +1,10 @@
 from PyQt4 import QtCore, QtGui
-from userselect import userSelect
+from userselect import UserSelect
 
-class userPref(QtGui.QDialog):
+class UserPref(QtGui.QDialog):
 
     def __init__(self):
-        super(userPref, self).__init__()
+        super(UserPref, self).__init__()
         title = "Username"
         self.setWindowTitle(str(title))
         self.resize(500, 50)
@@ -33,5 +33,5 @@ class userPref(QtGui.QDialog):
     def setUsername(self):
         username = str(self.nameInput.text())
         if username != "":
-            self.userswindow = userSelect(username)
+            self.userswindow = UserSelect(username)
             self.accept()

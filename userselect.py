@@ -6,7 +6,7 @@ from chatserver import ChatServer
 from message import Message
 
 
-class userSelect(QtGui.QDialog):
+class UserSelect(QtGui.QDialog):
 
     def chatStarted(self):
         clickedItem = self.list.currentItem()
@@ -51,7 +51,7 @@ class userSelect(QtGui.QDialog):
 
 
     def __init__(self, username):
-        super(userSelect, self).__init__()
+        super(UserSelect, self).__init__()
         self.username = username
 
         self.chatserver = ChatServer()
