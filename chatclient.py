@@ -22,6 +22,8 @@ class ChatClient():
 				socket.send(message.toJson())
 			except:
 				print "could not send message"
+		else:
+			print "could not find user "+str(contact)
 
 	def connect(self, contact, ip):
 		print "connecting to contact "+str(contact)+" ip "+str(ip)
