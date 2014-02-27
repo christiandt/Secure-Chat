@@ -14,6 +14,7 @@ server.listen(5)
 connections = []
 connections.append(server)
 users = dict()
+socketIP = dict()
 
 print "Server started on "+PRIVATE_TCP_IP
 
@@ -25,13 +26,13 @@ while 1:
 
 		if s == server:
 			connection, address = server.accept()
+			socketIP[connection] = address
 			connections.append(connection)
 			
 		else:
 			try:
 				receivedData = s.recv(BUFFER_SIZE)
-				ip, port = s.getsockname()
-				users[receivedData] = ip
+				users[receivedData] = socketIP[s]
 				s.send(json.dumps(users))
 				#print receivedData + " - " + ip
 			except:

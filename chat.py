@@ -45,6 +45,8 @@ class Chat(QtGui.QDialog):
     def __init__(self, username, contact, client):
         super(Chat, self).__init__()
         #self.communication = Communication(self, ip)
+        print "un: "+username
+        print "con: "+contact
         self.chatLog = []
         self.username = username
         self.contact = contact
