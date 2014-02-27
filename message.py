@@ -6,8 +6,8 @@ class Message():
 	def __init__(self, user="", message=""):
 		self.time = str(datetime.now().time())[:-7]
 		self.date = str(datetime.now().date())
-		self.user = user
-		self.message = message
+		self.user = str(user)
+		self.message = str(message)
 
 
 	def getTime(self):

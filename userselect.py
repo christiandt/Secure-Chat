@@ -1,8 +1,10 @@
-
-from PyQt4 import QtCore, QtGui
 import sys
+from PyQt4 import QtCore, QtGui
 from nameclient import NameClient
 from chat import Chat
+from chatserver import ChatServer
+from chatclient import ChatClient
+from message import Message
 
 
 class userSelect(QtGui.QDialog):
@@ -10,11 +12,24 @@ class userSelect(QtGui.QDialog):
     def chatStarted(self):
         clickedItem = self.list.currentItem()
         if clickedItem != None:
-            user = self.list.currentItem().text()
-            ip = self.userList[str(user)]
+            user = str(self.list.currentItem().text())
+            ip = self.userList[user]
             if ip != None:
-                self.chats.append(Chat(self.username, user, ip))
+                self.chatclient.connect(user, ip)
+                chat = Chat(self.username, user, self.chatclient)
+                self.chats[user] = chat
         #self.accept()
+
+    def receivedMessage(self, data):
+        message = Message()
+        message.fromJson(str(data))
+        user = message.getUser()
+        if user in self.chats:
+            chat = self.chats[user]
+            chat.receiveMessage(message)
+        else:
+            chat = Chat(self.username, user, self.chatclient)
+            self.chats[user] = chat
 
     def getUsers(self):
         client = NameClient()
@@ -31,12 +46,22 @@ class userSelect(QtGui.QDialog):
         self.list.addItems(users)
 
     def quitProgram(self):
+        self.chatserver.end()
         sys.exit(0)
+
 
     def __init__(self, username):
         super(userSelect, self).__init__()
         self.username = username
-        self.chats = []
+        self.chatclient = ChatClient()
+
+        self.chatserver = ChatServer(self.username, self.chatclient)
+        self.connect( self.chatserver, QtCore.SIGNAL("update(QString)"), self.receivedMessage )
+        #self.chatserver.daemon = True
+        self.chatserver.start()
+
+        
+        self.chats = dict()
         title = "Users"
         self.setWindowTitle(str(title))
         self.resize(300,400)

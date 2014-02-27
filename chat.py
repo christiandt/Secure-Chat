@@ -5,14 +5,26 @@ from message import Message
 
 class Chat(QtGui.QDialog):
 
-    def receiveMessage(self.message):
+    def receiveMessage(self, message):
         self.chatLog.append(message)
+        self.refreshChatMessages()
 
     def sendMessage(self):
-        html = ""
         text = self.messageText.text()
         message = Message(self.username, text)
         self.chatLog.append(message)
+        self.refreshChatMessages()
+        self.chatclient.sendMessage(message)
+
+        #self.chatsocket.send(message.toJson())
+        #data = self.chatsocket.recv(1024)
+        #msg = Message()
+        #msg.fromJson(data)
+        #self.receiveMessage(msg)
+        #self.communication.sendMessage(message)
+
+    def refreshChatMessages(self):
+        html = ""
         self.messageText.clear()
         for post in self.chatLog:
             if post.getUser() == self.username:
@@ -29,15 +41,14 @@ class Chat(QtGui.QDialog):
                 html += post.getMessage()
             html += "</div>"
         self.chatText.setHtml(html)
-        self.communication.sendMessage(message)
 
-    def __init__(self, username, contact, ip):
+    def __init__(self, username, contact, client):
         super(Chat, self).__init__()
-        self.communication = Communication(self, ip)
+        #self.communication = Communication(self, ip)
         self.chatLog = []
         self.username = username
         self.contact = contact
-        self.ip = ip
+        self.chatclient = client
         self.setWindowTitle("Chat with "+str(contact))
         self.resize(600, 400)
 

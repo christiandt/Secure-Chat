@@ -3,7 +3,7 @@ import socket, select, sys, json
 
 PRIVATE_TCP_IP = socket.gethostbyname(socket.gethostname())
 PUBLIC_TCP_IP = ""
-TCP_PORT = 5005
+TCP_PORT = 5000
 BUFFER_SIZE = 1024
 
 
