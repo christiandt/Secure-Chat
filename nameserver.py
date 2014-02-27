@@ -1,14 +1,13 @@
 import socket, select, sys, json
 
 
-PRIVATE_TCP_IP = socket.gethostbyname(socket.gethostname())
-PUBLIC_TCP_IP = ""
+TCP_IP = socket.gethostbyname(socket.gethostname())
 TCP_PORT = 5000
 BUFFER_SIZE = 1024
 
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind((PRIVATE_TCP_IP, TCP_PORT))
+server.bind((TCP_IP, TCP_PORT))
 server.listen(5)
 
 connections = []
@@ -16,7 +15,7 @@ connections.append(server)
 users = dict()
 socketIP = dict()
 
-print "Server started on "+PRIVATE_TCP_IP
+print "Server started on "+TCP_IP
 
 while 1:
 	# Check if there are any readable sockets

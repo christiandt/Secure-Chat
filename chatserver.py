@@ -10,7 +10,6 @@ class ChatServer(QtCore.QThread):
 		self.TCP_PORT = 5005
 		self.BUFFER_SIZE = 1024
 		self.serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		self.IP = socket.gethostbyname(socket.gethostname())
 		self.running=False
 		self.serversocket.bind((self.IP, self.TCP_PORT))
 		self.serversocket.listen(5)
