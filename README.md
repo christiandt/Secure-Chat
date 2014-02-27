@@ -1,7 +1,7 @@
 Secure-Chat
 ===========
 
-The SSL/TLS chat client is a chat client implemented using python and Qt (PyQt). 
+The SSL/TLS chat client is a chat client implemented using python and Qt (PyQt). The chat is P2P, but a centralized name-server is used to find other users.
 
 To run the chat client, do the following:
 - Run nameserver.py on the server
