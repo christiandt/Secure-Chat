@@ -2,6 +2,7 @@ import socket, ssl
 from PyQt4 import QtCore, QtGui
 from chatserver import ChatServer
 from message import Message
+from error import Error
 
 
 
@@ -16,7 +17,10 @@ class Chat(QtGui.QDialog):
         message = Message(self.username, text)
         self.chatLog.append(message)
         self.refreshChatMessages()
-        self.sslSocket.send(message.toJson())
+        try:
+            self.sslSocket.send(message.toJson())
+        except socket.error as e:
+            self.error = Error(str(e))
 
         #self.chatsocket.send(message.toJson())
         #data = self.chatsocket.recv(1024)
@@ -26,14 +30,18 @@ class Chat(QtGui.QDialog):
         #self.communication.sendMessage(message)
 
     def connect(self, ip):
+        #Changed resturn
         self.port = 5005
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sslSocket = ssl.wrap_socket(client, ssl_version=ssl.PROTOCOL_TLSv1)
+        self.sslSocket.settimeout(3)
         try:
             self.sslSocket.connect((ip, self.port))
-            self.sslSocket.settimeout(3)
+            return True
         except:
+            self.error = Error("could not connect")
             print "could not connect"
+            return False
 
 
     def refreshChatMessages(self):
