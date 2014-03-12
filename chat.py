@@ -1,4 +1,4 @@
-import socket
+import socket, ssl
 from PyQt4 import QtCore, QtGui
 from chatserver import ChatServer
 from message import Message
@@ -16,7 +16,7 @@ class Chat(QtGui.QDialog):
         message = Message(self.username, text)
         self.chatLog.append(message)
         self.refreshChatMessages()
-        self.client.send(message.toJson())
+        self.sslSocket.send(message.toJson())
 
         #self.chatsocket.send(message.toJson())
         #data = self.chatsocket.recv(1024)
@@ -27,21 +27,22 @@ class Chat(QtGui.QDialog):
 
     def connect(self, ip):
         self.port = 5005
-        self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.sslSocket = ssl.wrap_socket(client, ssl_version=ssl.PROTOCOL_TLSv1)
         try:
-            self.client.connect((ip, self.port))
-            self.client.settimeout(3)
+            self.sslSocket.connect((ip, self.port))
+            self.sslSocket.settimeout(3)
         except:
             print "could not connect"
 
 
     def refreshChatMessages(self):
         html = ""
-        print self.chatLog
+        #print self.chatLog
         self.messageText.clear()
         for post in self.chatLog:
-            print post.getUser()
-            print self.username
+            #print post.getUser()
+            #print self.username
             if post.getUser() == self.username:
                 html += '<div align="right">'
                 html += post.getMessage()
