@@ -15,6 +15,7 @@ connections.append(server)
 users = dict()
 socketIP = dict()
 
+
 print "Server started on "+TCP_IP
 
 while 1:
@@ -23,6 +24,7 @@ while 1:
 		readable_sockets,writeable_sockets,error_sockets = select.select(connections,[],[])
 	except:
 		print "Server killed"
+		sys.exit(0)
 
 	for s in readable_sockets:
 
@@ -43,5 +45,4 @@ while 1:
 				print "error receiving data"
 			connections.remove(s)
 			s.close()
-	
-		
+			
