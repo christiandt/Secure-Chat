@@ -26,7 +26,7 @@ class UserSelect(QtGui.QDialog):
             chat = self.chats[user]
             chat.receiveMessage(message)
         else:
-            self.refreshUsers(self)
+            self.refreshUsers()
             ip = self.userList[user]
             chat = Chat(self.username, user, ip)
             self.chats[user] = chat
