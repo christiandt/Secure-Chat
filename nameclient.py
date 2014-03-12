@@ -6,7 +6,7 @@ class NameClient():
 	def __init__(self):
 		self.server = None
 		self.CLIENT_TCP_IP = socket.gethostbyname(socket.gethostname())
-		self.SERVER_TCP_IP = '10.0.0.21'
+		self.SERVER_TCP_IP = '169.231.103.92'
 		self.SERVER_TCP_PORT = 5000
 		self.BUFFER_SIZE = 1024
 

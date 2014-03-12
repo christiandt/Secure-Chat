@@ -51,11 +51,11 @@ class UserSelect(QtGui.QDialog):
         sys.exit(0)
 
 
-    def __init__(self, username):
+    def __init__(self, username, ciphers):
         super(UserSelect, self).__init__()
         self.username = username
 
-        self.chatserver = ChatServer()
+        self.chatserver = ChatServer(ciphers)
         self.connect( self.chatserver, QtCore.SIGNAL("update(QString)"), self.receivedMessage )
         #self.chatserver.daemon = True
         self.chatserver.start()

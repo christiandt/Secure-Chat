@@ -39,8 +39,8 @@ class Chat(QtGui.QDialog):
             self.sslSocket.connect((ip, self.port))
             return True
         except:
-            self.error = Error("could not connect")
-            print "could not connect"
+            e = sys.exc_info()[0]
+            self.error = Error(str(e))
             return False
 
 

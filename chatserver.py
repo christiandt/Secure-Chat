@@ -5,8 +5,9 @@ from OpenSSL import crypto
 
 class ChatServer(QtCore.QThread):
 
-	def __init__(self):
+	def __init__(self, ciphers):
 		QtCore.QThread.__init__(self)
+		self.ciphers = ciphers
 		self.IP = socket.gethostbyname(socket.gethostname())
 		self.TCP_PORT = 5005
 		self.BUFFER_SIZE = 1024
@@ -72,8 +73,10 @@ class ChatServer(QtCore.QThread):
 								server_side=True,
 								certfile="cert.pem",
 								keyfile="key.key",
-								ssl_version=ssl.PROTOCOL_TLSv1)
+								ssl_version=ssl.PROTOCOL_TLSv1,
+								ciphers=self.ciphers)
 					self.connections.append(sslconnection)
+					print sslconnection.cipher()
 					print "connection added"
 
 				else:

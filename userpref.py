@@ -1,5 +1,6 @@
 from PyQt4 import QtCore, QtGui
 from userselect import UserSelect
+from error import Error
 
 class UserPref(QtGui.QDialog):
 
@@ -26,12 +27,68 @@ class UserPref(QtGui.QDialog):
         self.okbutton.setMinimumWidth(50)
         self.okbutton.setMinimumHeight(45)
         self.layout.addWidget(self.okbutton, 1, 1)
-        QtCore.QObject.connect(self.okbutton, QtCore.SIGNAL("clicked()"), self.setUsername)
+        QtCore.QObject.connect(self.okbutton, QtCore.SIGNAL("clicked()"), self.logOn)
+
+        #Crypto group
+        self.cryptoBoxes = []
+        self.cryptoGroup = QtGui.QGroupBox("Crytography", self)
+        self.cryptoGroup.setStyleSheet("font: 13pt")
+        self.cryptoGroupLayout = QtGui.QGridLayout()
+        allBox = QtGui.QCheckBox("ALL")
+        allBox.setChecked(True)
+        self.cryptoBoxes.append(allBox)
+        self.cryptoGroupLayout.addWidget(allBox, 0, 0)
+        highBox = QtGui.QCheckBox("HIGH")
+        highBox.setChecked(True)
+        self.cryptoBoxes.append(highBox)
+        self.cryptoGroupLayout.addWidget(highBox, 1, 0)
+        mediumBox = QtGui.QCheckBox("MEDIUM")
+        mediumBox.setChecked(True)
+        self.cryptoBoxes.append(mediumBox)
+        self.cryptoGroupLayout.addWidget(mediumBox, 2, 0)
+        lowBox = QtGui.QCheckBox("LOW")
+        lowBox.setChecked(True)
+        self.cryptoBoxes.append(lowBox)
+        self.cryptoGroupLayout.addWidget(lowBox, 3, 0)
+        aesBox = QtGui.QCheckBox("AES256")
+        aesBox.setChecked(True)
+        self.cryptoBoxes.append(aesBox)
+        self.cryptoGroupLayout.addWidget(aesBox, 0, 1)
+        shaBox = QtGui.QCheckBox("SHA1")
+        shaBox.setChecked(True)
+        self.cryptoBoxes.append(shaBox)
+        self.cryptoGroupLayout.addWidget(shaBox, 1, 1)
+        desBox = QtGui.QCheckBox("3DES")
+        desBox.setChecked(True)
+        self.cryptoBoxes.append(desBox)
+        self.cryptoGroupLayout.addWidget(desBox, 2, 1)
+        rsaBox = QtGui.QCheckBox("RSA")
+        rsaBox.setChecked(True)
+        self.cryptoBoxes.append(rsaBox)
+        self.cryptoGroupLayout.addWidget(rsaBox, 3, 1)
+        rc4Box = QtGui.QCheckBox("RC4")
+        rc4Box.setChecked(True)
+        self.cryptoBoxes.append(rc4Box)
+        self.cryptoGroupLayout.addWidget(rc4Box, 4, 1)
+
+        self.cryptoGroup.setLayout(self.cryptoGroupLayout)
+        self.layout.addWidget(self.cryptoGroup, 2, 0, 1, 2)
 
         self.setLayout(self.layout)
 
-    def setUsername(self):
+    def logOn(self):
         username = str(self.nameInput.text())
-        if username != "":
-            self.userswindow = UserSelect(username)
+        ciphersList = ""
+        for checkBox in self.cryptoBoxes:
+            if checkBox.isChecked():
+                name = str(checkBox.text())
+                ciphersList+=(name+":")
+                if name == "ALL" or name == "HIGH" or name == "MEDIUM" or name == "LOW":
+                    break
+        ciphersList = ciphersList.strip(':')
+        print ciphersList
+        if username != "" and ciphersList:
+            self.userswindow = UserSelect(username, ciphersList)
             self.accept()
+        else:
+            self.error = Error("Username and cipher must be set.")

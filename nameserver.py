@@ -19,7 +19,10 @@ print "Server started on "+TCP_IP
 
 while 1:
 	# Check if there are any readable sockets
-	readable_sockets,writeable_sockets,error_sockets = select.select(connections,[],[])
+	try:
+		readable_sockets,writeable_sockets,error_sockets = select.select(connections,[],[])
+	except:
+		print "Server killed"
 
 	for s in readable_sockets:
 
@@ -32,7 +35,8 @@ while 1:
 		else:
 			try:
 				receivedData = s.recv(BUFFER_SIZE)
-				users[receivedData] = socketIP[s]
+				if not "GET" in receivedData:
+					users[receivedData] = socketIP[s]
 				s.send(json.dumps(users))
 				#print receivedData + " - " + ip
 			except:
