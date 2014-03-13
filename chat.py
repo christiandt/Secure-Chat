@@ -12,8 +12,7 @@ class Chat(QtGui.QDialog):
         self.chatLog.append(message)
         self.refreshChatMessages()
 
-    def sendMessage(self):
-        text = self.messageText.text()
+    def sendMessage(self, text):
         message = Message(self.username, text)
         self.chatLog.append(message)
         self.refreshChatMessages()
@@ -43,6 +42,9 @@ class Chat(QtGui.QDialog):
             self.error = Error(str(e))
             return False
 
+    def clickedButton(self):
+        text = self.messageText.text()
+        self.sendMessage(text)
 
     def refreshChatMessages(self):
         html = ""
@@ -103,7 +105,7 @@ class Chat(QtGui.QDialog):
         self.sendButton.setText("Send")
         self.sendButton.setMinimumWidth(50)
         self.sendButton.setMinimumHeight(45)
-        QtCore.QObject.connect(self.sendButton, QtCore.SIGNAL("clicked()"), self.sendMessage)
+        QtCore.QObject.connect(self.sendButton, QtCore.SIGNAL("clicked()"), self.clickedButton)
 
         self.layout.addWidget(self.sendButton, 1, 1)
 
