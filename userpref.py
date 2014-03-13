@@ -31,6 +31,8 @@ class UserPref(QtGui.QDialog):
 
         #Crypto group
         self.cryptoBoxes = []
+        ciphers = ["CAMELLIA256-SHA", "AES256-SHA", "AES128-SHA", "DES-CBC3-SHA", "RC4-SHA"]
+
         self.cryptoGroup = QtGui.QGroupBox("Ciphers", self)
         self.cryptoGroup.setStyleSheet("font: 13pt")
         self.cryptoGroupLayout = QtGui.QGridLayout()
@@ -47,8 +49,6 @@ class UserPref(QtGui.QDialog):
         lowBox = QtGui.QCheckBox("LOW")
         self.cryptoBoxes.append(lowBox)
         self.cryptoGroupLayout.addWidget(lowBox, 3, 0)
-
-        ciphers = ["CAMELLIA256-SHA", "AES256-SHA", "AES128-SHA", "DES-CBC3-SHA", "RC4-SHA"]
         for cipher in ciphers:
             cipherBox = QtGui.QCheckBox(cipher)
             self.cryptoBoxes.append(cipherBox)
@@ -69,7 +69,6 @@ class UserPref(QtGui.QDialog):
                 #if name == "ALL" or name == "HIGH" or name == "MEDIUM" or name == "LOW":
                 #    break
         ciphersList = ciphersList.strip(':')
-        print ciphersList
         if username != "" and ciphersList:
             self.userswindow = UserSelect(username, ciphersList)
             self.accept()

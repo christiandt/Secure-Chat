@@ -37,10 +37,15 @@ while 1:
 		else:
 			try:
 				receivedData = s.recv(BUFFER_SIZE)
-				if not "GET" in receivedData:
-					users[receivedData] = socketIP[s]
-				s.send(json.dumps(users))
-				#print receivedData + " - " + ip
+				if receivedData[0:7] == "REMOVE:":
+					try:
+						del users[receivedData[7:]]
+					except:
+						None
+				else:
+					if not "GET" in receivedData:
+						users[receivedData] = socketIP[s]
+					s.send(json.dumps(users))
 			except:
 				print "error receiving data"
 			connections.remove(s)

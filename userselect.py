@@ -46,10 +46,14 @@ class UserSelect(QtGui.QDialog):
         self.list.clear()
         self.list.addItems(users)
 
-    def quitProgram(self):
-        self.chatserver.end()
-        sys.exit(0)
+    def logOut(self):
+        client = NameClient()
+        if(client.connect()):
+            client.sendUsername("REMOVE:"+self.username)
 
+    def quitProgram(self):
+        self.logOut()
+        self.chatserver.end()
 
     def __init__(self, username, ciphers):
         super(UserSelect, self).__init__()
