@@ -47,8 +47,6 @@ class UserSelect(QtGui.QDialog):
         self.list.addItems(users)
 
     def quitProgram(self):
-        for chat in self.chats:
-            chat.sendMessage("User has disconnected")
         self.chatserver.end()
         sys.exit(0)
 

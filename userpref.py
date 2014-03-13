@@ -6,7 +6,7 @@ class UserPref(QtGui.QDialog):
 
     def __init__(self):
         super(UserPref, self).__init__()
-        title = "Username"
+        title = "Preferences"
         self.setWindowTitle(str(title))
         self.resize(500, 50)
 
@@ -31,7 +31,7 @@ class UserPref(QtGui.QDialog):
 
         #Crypto group
         self.cryptoBoxes = []
-        self.cryptoGroup = QtGui.QGroupBox("Crytography", self)
+        self.cryptoGroup = QtGui.QGroupBox("Ciphers", self)
         self.cryptoGroup.setStyleSheet("font: 13pt")
         self.cryptoGroupLayout = QtGui.QGridLayout()
         allBox = QtGui.QCheckBox("ALL")
