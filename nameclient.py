@@ -40,5 +40,4 @@ class NameClient():
 		except socket.timeout:
 			#timed out
 			None
-		print userList
 		return userList

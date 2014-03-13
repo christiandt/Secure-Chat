@@ -42,7 +42,7 @@ class Chat(QtGui.QDialog):
             return True
         except socket.error as e:
             errorcode = e[0]
-            if errorcode==errno.ECONNREFUSED:
+            if errorcode == errno.ECONNREFUSED:
                 self.error = Error("Could not connect to "+ self.contact)
             else:
                 messageError = "Error code " + e[0]
@@ -77,8 +77,6 @@ class Chat(QtGui.QDialog):
 
     def __init__(self, username, contact, ip, ciphers):
         super(Chat, self).__init__()
-        print "un: "+username
-        print "con: "+contact
         self.chatLog = []
         self.username = username
         self.contact = contact

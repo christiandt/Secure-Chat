@@ -59,12 +59,11 @@ class ChatServer(QtCore.QThread):
 
 	def run(self):
 		self.running = True
+		print "running server"
 		while self.running:
-			print "running server"
 			try:
 				readable_sockets,writeable_sockets,error_sockets = select.select(self.connections,[],[])
 			except:
-				print "hmmm...."
 				break
 			for s in readable_sockets:
 				if s == self.serversocket:
@@ -76,12 +75,10 @@ class ChatServer(QtCore.QThread):
 								ssl_version=ssl.PROTOCOL_TLSv1,
 								ciphers=self.ciphers)
 					self.connections.append(sslconnection)
-					print sslconnection.cipher()
-					print "connection added"
+					print "connection added: " + str(sslconnection.cipher())
 
 				else:
 					try:
-						print "message received"
 						data = s.recv(self.BUFFER_SIZE)
 						if data == "":
 							s.close()
