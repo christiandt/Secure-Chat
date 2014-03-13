@@ -47,21 +47,12 @@ class UserPref(QtGui.QDialog):
         lowBox = QtGui.QCheckBox("LOW")
         self.cryptoBoxes.append(lowBox)
         self.cryptoGroupLayout.addWidget(lowBox, 3, 0)
-        aesBox = QtGui.QCheckBox("AES256")
-        self.cryptoBoxes.append(aesBox)
-        self.cryptoGroupLayout.addWidget(aesBox, 0, 1)
-        shaBox = QtGui.QCheckBox("SHA1")
-        self.cryptoBoxes.append(shaBox)
-        self.cryptoGroupLayout.addWidget(shaBox, 1, 1)
-        desBox = QtGui.QCheckBox("3DES")
-        self.cryptoBoxes.append(desBox)
-        self.cryptoGroupLayout.addWidget(desBox, 2, 1)
-        rsaBox = QtGui.QCheckBox("RSA")
-        self.cryptoBoxes.append(rsaBox)
-        self.cryptoGroupLayout.addWidget(rsaBox, 3, 1)
-        rc4Box = QtGui.QCheckBox("RC4")
-        self.cryptoBoxes.append(rc4Box)
-        self.cryptoGroupLayout.addWidget(rc4Box, 4, 1)
+
+        ciphers = ["CAMELLIA256-SHA", "AES256-SHA", "AES128-SHA", "DES-CBC3-SHA", "RC4-SHA"]
+        for cipher in ciphers:
+            cipherBox = QtGui.QCheckBox(cipher)
+            self.cryptoBoxes.append(cipherBox)
+            self.cryptoGroupLayout.addWidget(cipherBox, ciphers.index(cipher), 1)
 
         self.cryptoGroup.setLayout(self.cryptoGroupLayout)
         self.layout.addWidget(self.cryptoGroup, 2, 0, 1, 2)
