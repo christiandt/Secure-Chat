@@ -29,7 +29,9 @@ class Chat(QtGui.QDialog):
         #Changed resturn
         self.port = 5005
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.sslSocket = ssl.wrap_socket(client, ssl_version=ssl.PROTOCOL_TLSv1)
+        self.sslSocket = ssl.wrap_socket(client, 
+                        ssl_version=ssl.PROTOCOL_TLSv1,
+                        ciphers=self.ciphers)
         self.sslSocket.settimeout(3)
         try:
             self.sslSocket.connect((ip, self.port))
@@ -66,13 +68,14 @@ class Chat(QtGui.QDialog):
             html += "</div>"
         self.chatText.setHtml(html)
 
-    def __init__(self, username, contact, ip):
+    def __init__(self, username, contact, ip, ciphers):
         super(Chat, self).__init__()
         print "un: "+username
         print "con: "+contact
         self.chatLog = []
         self.username = username
         self.contact = contact
+        self.ciphers = ciphers
         self.setWindowTitle("Chat with "+str(contact))
         self.resize(600, 400)
         self.layout = QtGui.QGridLayout(self)

@@ -75,8 +75,8 @@ class UserPref(QtGui.QDialog):
             if checkBox.isChecked():
                 name = str(checkBox.text())
                 ciphersList+=(name+":")
-                if name == "ALL" or name == "HIGH" or name == "MEDIUM" or name == "LOW":
-                    break
+                #if name == "ALL" or name == "HIGH" or name == "MEDIUM" or name == "LOW":
+                #    break
         ciphersList = ciphersList.strip(':')
         print ciphersList
         if username != "" and ciphersList:
