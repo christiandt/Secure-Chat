@@ -87,7 +87,6 @@ class ChatServer(QtCore.QThread):
 							s.close()
 							connections.remove(s)
 						self.emit(QtCore.SIGNAL('update(QString)'), data)
-						#s.send(msg.toJson())
 					except:
 						print "error data..."
 						break
@@ -96,6 +95,7 @@ class ChatServer(QtCore.QThread):
 			
 	def end(self):
 		self.running = False
+		print "Shuting down"
 		for conn in self.connections:
 			conn.close()
 		self.serversocket.close()

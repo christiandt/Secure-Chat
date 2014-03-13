@@ -1,4 +1,4 @@
-import socket, ssl
+import socket, ssl, sys, errno
 from PyQt4 import QtCore, QtGui
 from chatserver import ChatServer
 from message import Message
@@ -18,15 +18,12 @@ class Chat(QtGui.QDialog):
         self.refreshChatMessages()
         try:
             self.sslSocket.send(message.toJson())
-        except socket.error as e:
+        except ssl.SSLError as e:
             self.error = Error(str(e))
-
-        #self.chatsocket.send(message.toJson())
-        #data = self.chatsocket.recv(1024)
-        #msg = Message()
-        #msg.fromJson(data)
-        #self.receiveMessage(msg)
-        #self.communication.sendMessage(message)
+        except socket.error as e:
+            errorcode = e[0]
+            if errorcode == errno.EPIPE:
+                self.error = Error("Could not send message, user has probably logged out")
 
     def connect(self, ip):
         #Changed resturn
@@ -37,9 +34,10 @@ class Chat(QtGui.QDialog):
         try:
             self.sslSocket.connect((ip, self.port))
             return True
-        except:
-            e = sys.exc_info()[0]
-            self.error = Error(str(e))
+        except socket.error as e:
+            errorcode = e[0]
+            if errorcode==errno.ECONNREFUSED:
+                self.error = Error("Could not connect to "+ self.contact)
             return False
 
     def clickedButton(self):
@@ -70,7 +68,6 @@ class Chat(QtGui.QDialog):
 
     def __init__(self, username, contact, ip):
         super(Chat, self).__init__()
-        #self.communication = Communication(self, ip)
         print "un: "+username
         print "con: "+contact
         self.chatLog = []
@@ -78,41 +75,33 @@ class Chat(QtGui.QDialog):
         self.contact = contact
         self.setWindowTitle("Chat with "+str(contact))
         self.resize(600, 400)
-
         self.layout = QtGui.QGridLayout(self)
-
-        self.connect(ip)
         
-        #userLabel = QtGui.QLabel("Username: "+user)
-        #self.layout.addWidget(userLabel, 0, 0)
+        if self.connect(ip):
+            #Text
+            self.scrollArea = QtGui.QScrollArea(self)
+            self.scrollArea.setWidgetResizable(True)
+            self.scrollAreaWidgetContents = QtGui.QWidget()
+            self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+            self.chatText = QtGui.QTextBrowser(self.scrollAreaWidgetContents)
+            self.layout.addWidget(self.scrollArea, 0, 0, 1, 2)
+            self.layout.addWidget(self.chatText, 0, 0, 1, 2)
 
-        #ipLabel = QtGui.QLabel("IP: "+ip)
-        #self.layout.addWidget(ipLabel, 1, 0)
+            #SendButton
+            self.sendButton = QtGui.QPushButton(self)
+            self.sendButton.setText("Send")
+            self.sendButton.setMinimumWidth(50)
+            self.sendButton.setMinimumHeight(45)
+            QtCore.QObject.connect(self.sendButton, QtCore.SIGNAL("clicked()"), self.clickedButton)
 
+            self.layout.addWidget(self.sendButton, 1, 1)
 
+            #messageText
+            self.messageText = QtGui.QLineEdit(self)
+            self.layout.addWidget(self.messageText, 1, 0)
 
-        #Text
-        self.scrollArea = QtGui.QScrollArea(self)
-        self.scrollArea.setWidgetResizable(True)
-        self.scrollAreaWidgetContents = QtGui.QWidget()
-        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-        self.chatText = QtGui.QTextBrowser(self.scrollAreaWidgetContents)
-        self.layout.addWidget(self.scrollArea, 0, 0, 1, 2)
-        self.layout.addWidget(self.chatText, 0, 0, 1, 2)
+            self.setLayout(self.layout)
+            self.show()
 
-        #SendButton
-        self.sendButton = QtGui.QPushButton(self)
-        self.sendButton.setText("Send")
-        self.sendButton.setMinimumWidth(50)
-        self.sendButton.setMinimumHeight(45)
-        QtCore.QObject.connect(self.sendButton, QtCore.SIGNAL("clicked()"), self.clickedButton)
-
-        self.layout.addWidget(self.sendButton, 1, 1)
-
-        #messageText
-        self.messageText = QtGui.QLineEdit(self)
-        self.layout.addWidget(self.messageText, 1, 0)
-
-
-        self.setLayout(self.layout)
-        self.show()
+        else:
+            self.accept()
