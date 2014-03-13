@@ -5,15 +5,13 @@ from message import Message
 from error import Error
 
 
-
 class Chat(QtGui.QDialog):
 
     def receiveMessage(self, message):
         self.chatLog.append(message)
         self.refreshChatMessages()
 
-    def sendMessage(self, text):
-        message = Message(self.username, text)
+    def sendMessage(self, message):
         self.chatLog.append(message)
         self.refreshChatMessages()
         try:
@@ -30,7 +28,6 @@ class Chat(QtGui.QDialog):
                     None
 
     def connect(self, ip):
-        #Changed resturn
         self.port = 5005
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sslSocket = ssl.wrap_socket(client, 
@@ -51,7 +48,8 @@ class Chat(QtGui.QDialog):
 
     def clickedButton(self):
         text = self.messageText.text()
-        self.sendMessage(text)
+        message = Message(self.username, text)
+        self.sendMessage(message)
 
     def refreshChatMessages(self):
         html = ""
@@ -101,7 +99,6 @@ class Chat(QtGui.QDialog):
             self.sendButton.setMinimumWidth(50)
             self.sendButton.setMinimumHeight(45)
             QtCore.QObject.connect(self.sendButton, QtCore.SIGNAL("clicked()"), self.clickedButton)
-
             self.layout.addWidget(self.sendButton, 1, 1)
 
             #messageText
