@@ -59,7 +59,7 @@ class ChatServer(QtCore.QThread):
 
 	def run(self):
 		self.running = True
-		print "running server"
+		print "Running server"
 		while self.running:
 			try:
 				readable_sockets,writeable_sockets,error_sockets = select.select(self.connections,[],[])
@@ -75,7 +75,7 @@ class ChatServer(QtCore.QThread):
 								ssl_version=ssl.PROTOCOL_TLSv1,
 								ciphers=self.ciphers)
 					self.connections.append(sslconnection)
-					print "connection added: " + str(sslconnection.cipher())
+					print "Connected using: " + str(sslconnection.cipher())
 
 				else:
 					try:
@@ -92,7 +92,7 @@ class ChatServer(QtCore.QThread):
 			
 	def end(self):
 		self.running = False
-		print "Shutting down"
+		print "Server shutting down..."
 		for conn in self.connections:
 			conn.close()
 		self.serversocket.close()

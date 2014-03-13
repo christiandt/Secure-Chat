@@ -69,7 +69,7 @@ class UserPref(QtGui.QDialog):
                 #if name == "ALL" or name == "HIGH" or name == "MEDIUM" or name == "LOW":
                 #    break
         ciphersList = ciphersList.strip(':')
-        if username != "" and ciphersList:
+        if username != "" and username[0:7] != "REMOVE:" and ciphersList:
             self.userswindow = UserSelect(username, ciphersList)
             self.accept()
         else:
