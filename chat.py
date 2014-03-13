@@ -40,6 +40,9 @@ class Chat(QtGui.QDialog):
             errorcode = e[0]
             if errorcode==errno.ECONNREFUSED:
                 self.error = Error("Could not connect to "+ self.contact)
+            else:
+                messageError = "Error code " + e[0] + "\nThe user you are trying to contact is probably requiring a cipher you don't allow"
+                self.error = Error(messageError)
             return False
 
     def clickedButton(self):

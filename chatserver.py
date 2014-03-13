@@ -95,7 +95,8 @@ class ChatServer(QtCore.QThread):
 			
 	def end(self):
 		self.running = False
-		print "Shuting down"
+		print "Shutting down"
 		for conn in self.connections:
 			conn.close()
 		self.serversocket.close()
+		sys.exit(0)

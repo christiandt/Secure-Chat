@@ -92,13 +92,13 @@ class UserSelect(QtGui.QDialog):
         self.layout.addWidget(self.refreshbutton, 1, 1)
         QtCore.QObject.connect(self.refreshbutton, QtCore.SIGNAL("clicked()"), self.refreshUsers)
 
-        #cancelbutton
-        self.cancelbutton = QtGui.QPushButton(self)
-        self.cancelbutton.setText("Log out")
-        self.cancelbutton.setMinimumWidth(5)
-        self.cancelbutton.setMinimumHeight(50)
-        self.layout.addWidget(self.cancelbutton, 1, 2)
-        QtCore.QObject.connect(self.cancelbutton, QtCore.SIGNAL("clicked()"), self.quitProgram)
+        #logoutbutton
+        self.logoutbutton = QtGui.QPushButton(self)
+        self.logoutbutton.setText("Log out")
+        self.logoutbutton.setMinimumWidth(5)
+        self.logoutbutton.setMinimumHeight(50)
+        self.layout.addWidget(self.logoutbutton, 1, 2)
+        QtCore.QObject.connect(self.logoutbutton, QtCore.SIGNAL("clicked()"), self.quitProgram)
 
         self.setLayout(self.layout)
         self.show()
